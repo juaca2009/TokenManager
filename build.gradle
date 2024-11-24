@@ -11,10 +11,13 @@ buildscript {
 
 plugins {
     id 'co.com.bancolombia.cleanArchitecture' version "${cleanArchitectureVersion}"
-    id 'org.springframework.boot' version "${springBootVersion}" apply false
+    //id 'org.springframework.boot' version "${springBootVersion}" apply false
     id 'org.sonarqube' version "${sonarVersion}"
     id 'jacoco'
     id 'info.solidsoft.pitest' version "${pitestVersion}" apply false
+    id 'org.springframework.boot' version '3.3.6'
+    id 'io.spring.dependency-management' version '1.1.3'
+    id 'java'
 }
 
 sonar {
@@ -33,6 +36,12 @@ sonar {
         property "sonar.pitest.reportPaths", "build/reports/pitest/mutations.xml"
         property "sonar.externalIssuesReportPaths", "build/issues.json"
     }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web' // APIs REST y controladores
+    implementation 'org.springframework.boot:spring-boot-starter-security' // Seguridad
+    implementation 'org.springframework.boot:spring-boot-starter' // Starter base de Spring Boot
 }
 
 apply from: './main.gradle'
