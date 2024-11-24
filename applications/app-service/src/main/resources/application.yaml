@@ -5,10 +5,14 @@ spring:
     name: "tokenapp"
   devtools:
     add-properties: false
+#aws:
+#  region: "US_EAST_1"
+#  dynamodb:
+#    endpoint: "http://localhost:8000"
 aws:
-  region: "US_EAST_1"
+  region: "us-east-1"
   dynamodb:
-    endpoint: "http://localhost:8000"
+    endpoint: "http://localhost:4566"
 management:
   endpoints:
     web:
@@ -20,3 +24,17 @@ management:
         enabled: true
 cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"
+adapter:
+  aws:
+    s3:
+      bucketName: "sample-bucket"
+      region: "us-east-1"
+      endpoint: "http://localhost:4566"
+    sqs:
+      region: "us-east-1"
+      queueUrl: "http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/localstack-queue"
+      endpoint: "http://localhost:4566"
+    dynamodb:
+      region: "us-east-1"
+      endpoint: "http://localhost:4566"
+      tableName: "SessionTokens"
