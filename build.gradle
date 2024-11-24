@@ -39,9 +39,9 @@ sonar {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web' // APIs REST y controladores
-    implementation 'org.springframework.boot:spring-boot-starter-security' // Seguridad
-    implementation 'org.springframework.boot:spring-boot-starter' // Starter base de Spring Boot
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter'
 }
 
 apply from: './main.gradle'

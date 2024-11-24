@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 @RequestMapping("/auth")
 public class AuthController {
 
-    /*@PostMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
         // Lógica de autenticación básica
         if ("user".equals(loginRequest.getUsername()) && "password".equals(loginRequest.getPassword())) {
@@ -41,6 +41,6 @@ public class AuthController {
         public void setPassword(String password) {
             this.password = password;
         }
-    }*/
+    }
 
 }
