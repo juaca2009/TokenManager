@@ -1,6 +1,5 @@
-package co.com.bancolombia.config.controller;
+package co.com.bancolombia.api.tokenManagment;
 
-import lombok.*;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,9 +8,9 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthController {
+public class TokenRoutes {
 
-    /*@PostMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
         // Lógica de autenticación básica
         if ("user".equals(loginRequest.getUsername()) && "password".equals(loginRequest.getPassword())) {
@@ -41,6 +40,6 @@ public class AuthController {
         public void setPassword(String password) {
             this.password = password;
         }
-    }*/
+    }
 
 }
