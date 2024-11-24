@@ -5,12 +5,18 @@ spring:
     name: "tokenapp"
   devtools:
     add-properties: false
-  h2:
-    console:
-      enabled: true
-      path: "/h2"
-  profiles:
-    include: null
 aws:
+  region: "US_EAST_1"
   dynamodb:
     endpoint: "http://localhost:8000"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,prometheus"
+  endpoint:
+    health:
+      probes:
+        enabled: true
+cors:
+  allowed-origins: "http://localhost:4200,http://localhost:8080"
