@@ -1,18 +1,18 @@
 package co.com.bancolombia.api;
 
+import co.com.bancolombia.api.tokenManagment.AuthHandler;
 import co.com.bancolombia.api.tokenManagment.TokenRoutes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-import co.com.bancolombia.usecase.AuthService;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final AuthService authService;
+    private final AuthHandler authService;
 
-    public AuthController(AuthService authService) {
+    public AuthController(AuthHandler authService) {
         this.authService = authService;
     }
 

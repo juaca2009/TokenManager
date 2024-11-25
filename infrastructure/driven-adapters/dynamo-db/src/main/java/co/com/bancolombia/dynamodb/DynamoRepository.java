@@ -1,6 +1,8 @@
 package co.com.bancolombia.dynamodb;
 
 import org.springframework.stereotype.Repository;
+
+import co.com.bancolombia.model.token.gateways.TokenGateway;
 import reactor.core.publisher.Mono;
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient;
 import software.amazon.awssdk.services.dynamodb.model.*;
@@ -9,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository
-public class DynamoRepository {
+public class DynamoRepository implements TokenGateway{
 
     private final DynamoDbAsyncClient dynamoDbAsyncClient;
     private static final String TABLE_NAME = "AuthTokens";
@@ -18,6 +20,7 @@ public class DynamoRepository {
         this.dynamoDbAsyncClient = dynamoDbAsyncClient;
     }
 
+    @Override
     public Mono<Void> saveToken(String token, long ttl) {
         Map<String, AttributeValue> item = new HashMap<>();
         item.put("token", AttributeValue.builder().s(token).build());

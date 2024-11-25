@@ -1,4 +1,4 @@
-package co.com.bancolombia.usecase;
+package co.com.bancolombia.api.tokenManagment;
 
 import co.com.bancolombia.infrastructure.drivenadapters.dynamo.DynamoRepository;
 import org.springframework.stereotype.Service;
@@ -8,11 +8,11 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Service
-public class AuthService {
+public class AuthHandler {
 
     private final DynamoRepository dynamoRepository;
 
-    public AuthService(DynamoRepository dynamoRepository) {
+    public AuthHandler(DynamoRepository dynamoRepository) {
         this.dynamoRepository = dynamoRepository;
     }
 
