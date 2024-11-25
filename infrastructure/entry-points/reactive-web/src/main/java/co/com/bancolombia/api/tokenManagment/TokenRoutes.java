@@ -12,7 +12,6 @@ public class TokenRoutes {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
-        // Lógica de autenticación básica
         if ("user".equals(loginRequest.getUsername()) && "password".equals(loginRequest.getPassword())) {
             return ResponseEntity.ok("Login exitoso!");
         } else {
@@ -20,7 +19,6 @@ public class TokenRoutes {
         }
     }
 
-    // Clase estática para manejar las credenciales de inicio de sesión
     public static class LoginRequest {
         private String username;
         private String password;
