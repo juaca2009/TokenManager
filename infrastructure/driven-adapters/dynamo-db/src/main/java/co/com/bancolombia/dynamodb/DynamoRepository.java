@@ -2,7 +2,7 @@ package co.com.bancolombia.dynamodb;
 
 import org.springframework.stereotype.Repository;
 
-import co.com.bancolombia.model.token.gateways.TokenGateway;
+import co.com.bancolombia.model.token.gateways.SaveTokenGateway;
 import reactor.core.publisher.Mono;
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient;
 import software.amazon.awssdk.services.dynamodb.model.*;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository
-public class DynamoRepository implements TokenGateway{
+public class DynamoRepository implements SaveTokenGateway {
 
     private final DynamoDbAsyncClient dynamoDbAsyncClient;
     private static final String TABLE_NAME = "AuthTokens";
