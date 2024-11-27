@@ -1,0 +1,7 @@
+CREATE TABLE AuditLog (
+    id UUID PRIMARY KEY,
+    userId VARCHAR(255) NOT NULL,
+    action VARCHAR(255) NOT NULL,
+    ipAddress VARCHAR(45) NOT NULL,
+    timestamp TIMESTAMP NOT NULL
+);
