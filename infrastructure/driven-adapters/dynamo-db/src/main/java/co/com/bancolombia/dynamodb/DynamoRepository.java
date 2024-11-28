@@ -1,5 +1,7 @@
 package co.com.bancolombia.dynamodb;
 
+import co.com.bancolombia.model.token.Token;
+import co.com.bancolombia.model.users.User;
 import org.springframework.stereotype.Repository;
 
 import co.com.bancolombia.model.token.gateways.SaveTokenGateway;
@@ -21,17 +23,19 @@ public class DynamoRepository implements SaveTokenGateway {
     }
 
     @Override
-    public Mono<Void> saveToken(String token, long ttl) {
+    public Mono<Token> saveToken(Token token, User user) {
         Map<String, AttributeValue> item = new HashMap<>();
-        item.put("token", AttributeValue.builder().s(token).build());
-        item.put("ttl", AttributeValue.builder().n(String.valueOf(ttl)).build());
+        item.put("token", AttributeValue.builder().s(token.getToken()).build());
+        item.put("ttl", AttributeValue.builder().n(String.valueOf(token.getTtl())).build());
         item.put("createdAt", AttributeValue.builder().n(String.valueOf(System.currentTimeMillis())).build());
+        item.put("userId", AttributeValue.builder().s(user.getId().toString()).build());
 
         PutItemRequest request = PutItemRequest.builder()
                 .tableName(TABLE_NAME)
                 .item(item)
                 .build();
 
-        return Mono.fromFuture(() -> dynamoDbAsyncClient.putItem(request)).then();
+        return Mono.fromFuture(() -> dynamoDbAsyncClient.putItem(request))
+                .map(response -> token);
     }
 }
