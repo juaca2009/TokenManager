@@ -3,5 +3,5 @@ CREATE TABLE AuditLog (
     userId VARCHAR(255) NOT NULL,
     action VARCHAR(255) NOT NULL,
     ipAddress VARCHAR(45) NOT NULL,
-    timestamp TIMESTAMP NOT NULL
+    dateLog TIMESTAMP NOT NULL
 );
