@@ -5,10 +5,10 @@ spring:
     name: "tokenapp"
   devtools:
     add-properties: false
-#aws:
-#  region: "US_EAST_1"
-#  dynamodb:
-#    endpoint: "http://localhost:8000"
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5544/accounts
+    username: admin
+    password: admin123
 aws:
   region: "us-east-1"
   dynamodb:
@@ -26,15 +26,10 @@ cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"
 adapter:
   aws:
-    s3:
-      bucketName: "sample-bucket"
-      region: "us-east-1"
-      endpoint: "http://localhost:4566"
-    sqs:
-      region: "us-east-1"
-      queueUrl: "http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/localstack-queue"
-      endpoint: "http://localhost:4566"
     dynamodb:
       region: "us-east-1"
       endpoint: "http://localhost:4566"
       tableName: "SessionTokens"
+generate-token:
+  secret-key: 6l1NlUBZJOhxmpEnO51-bKHDEHlBl58-ak_etv-q8NHo04_Tq-cCf9mNDS7tal3RGDYASBboxjGEhu2mIn9gvg
+  expiration-ms: 900000 //15 minutos en ms
