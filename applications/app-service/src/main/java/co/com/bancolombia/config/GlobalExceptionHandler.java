@@ -14,11 +14,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserException.class)
     public ResponseEntity<ErrorModel> handleUserException(UserException ex, ServerWebExchange exchange) {
-        return ResponseEntity.status(HttpStatus.valueOf(ex.getCode()))
+        return ResponseEntity.status(HttpStatus.valueOf((Integer.parseInt(ex.getCode()))))
                 .body(ErrorModel.builder()
                         .message(ex.getMessage())
                         .code(String.valueOf(ex.getCode()))
-                        .cause(ex.getCause().toString())
+                        .cause(ex.getCause() == null? "": ex.getCause().toString())
                         .details("Se presento un error inesperado")
                         .build());
     }
@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
                 .body(ErrorModel.builder()
                         .message(ex.getMessage())
                         .code("400")
-                        .cause(ex.getCause().toString())
+                        .cause(ex.getCause() == null? "": ex.getCause().toString())
                         .details("Se presento un error inesperado")
                         .build());
     }
@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
                 .body(ErrorModel.builder()
                         .message(ex.getMessage())
                         .code("500")
-                        .cause(ex.getCause().toString())
+                        .cause(ex.getCause() == null? "": ex.getCause().toString())
                         .details("Se presento un error inesperado")
                         .build());
     }
