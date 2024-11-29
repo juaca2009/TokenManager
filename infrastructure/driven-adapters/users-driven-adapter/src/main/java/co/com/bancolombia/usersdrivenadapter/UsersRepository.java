@@ -28,4 +28,13 @@ public class UsersRepository implements UsersGateways {
                 .switchIfEmpty(Mono.error(new TokenException(ExceptionMessage.USER_NOT_FOUND.getCode(),
                         ExceptionMessage.USER_NOT_FOUND.getMessage())));
     }
+
+    @Override
+    public Mono<User> getUserById(String id) {
+        return Mono.justOrEmpty(userList.stream()
+                        .filter(user -> user.getId().toString().equals(id))
+                        .findFirst())
+                .switchIfEmpty(Mono.error(new TokenException(ExceptionMessage.USER_NOT_FOUND.getCode(),
+                        ExceptionMessage.USER_NOT_FOUND.getMessage())));
+    }
 }

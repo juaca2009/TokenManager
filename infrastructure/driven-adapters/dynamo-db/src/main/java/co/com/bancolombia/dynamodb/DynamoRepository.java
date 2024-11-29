@@ -21,13 +21,15 @@ public class DynamoRepository implements PersistenceTokenGateway {
     private final DynamoDbEnhancedAsyncClient dynamoDbEnhancedAsyncClient;
     private static final String TABLE_NAME = "SessionTokens";
 
-    public DynamoRepository(DynamoDbAsyncClient dynamoDbAsyncClient, DynamoDbEnhancedAsyncClient dynamoDbEnhancedAsyncClient) {
+    public DynamoRepository(DynamoDbAsyncClient dynamoDbAsyncClient,
+                            DynamoDbEnhancedAsyncClient dynamoDbEnhancedAsyncClient) {
         this.dynamoDbEnhancedAsyncClient = dynamoDbEnhancedAsyncClient;
     }
 
     @Override
     public Mono<Token> saveToken(Token token, User user) {
-        DynamoDbAsyncTable<SessionToken> table = dynamoDbEnhancedAsyncClient.table(TABLE_NAME, TableSchema.fromBean(SessionToken.class));
+        DynamoDbAsyncTable<SessionToken> table = dynamoDbEnhancedAsyncClient.table(TABLE_NAME,
+                TableSchema.fromBean(SessionToken.class));
         SessionToken sessionToken = new SessionToken();
         sessionToken.setToken(token.getToken());
         sessionToken.setUserId(user.getId().toString());
@@ -38,14 +40,17 @@ public class DynamoRepository implements PersistenceTokenGateway {
     }
 
     @Override
-    public Mono<Void> verifyToken(String userId) {
-        DynamoDbAsyncTable<SessionToken> table = dynamoDbEnhancedAsyncClient.table(TABLE_NAME, TableSchema.fromBean(SessionToken.class));
-        QueryConditional queryConditional = QueryConditional.keyEqualTo(Key.builder().partitionValue(userId).build());
+    public Mono<String> verifyToken(String userId) {
+        //Metodo que verifica si el token existe en la base de datos de DynamoDB, si existe retorna el userId si no
+        // retorna un Mono vacio
+        DynamoDbAsyncTable<SessionToken> table = dynamoDbEnhancedAsyncClient.table(TABLE_NAME,
+                TableSchema.fromBean(SessionToken.class));
+        Key key = Key.builder().partitionValue(userId).build();
+        QueryConditional queryConditional = QueryConditional.keyEqualTo(key);
         return Mono.from(table.query(queryConditional))
                 .flatMapMany(queryResponse -> Flux.fromIterable(queryResponse.items()))
                 .next()
-                .switchIfEmpty(Mono.error(new TokenException(ExceptionMessage.UNAUTHORIZED.getCode(),
-                        ExceptionMessage.UNAUTHORIZED.getMessage())))
-                .then();
+                .map(SessionToken::getUserId)
+                .switchIfEmpty(Mono.empty());
     }
 }

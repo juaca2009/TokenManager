@@ -7,5 +7,5 @@ import reactor.core.publisher.Mono;
 public interface PersistenceTokenGateway {
 
     Mono<Token> saveToken(Token token, User user);
-    Mono<Void> verifyToken(String userId);
+    Mono<String> verifyToken(String userId);
 }

@@ -19,11 +19,15 @@ public class TokenRoutes {
     @Value("${api.auth-path}")
     private String authPath;
 
+    @Value("${api.validate-path}")
+    private String validatePath;
+
     @Bean
     public RouterFunction<ServerResponse> route(TokenHandler tokenHandler) {
         return RouterFunctions.route()
                 .nest(path(basePath), builder -> builder
-                        .POST(authPath, tokenHandler::generateTokenHandler))
+                        .POST(authPath, tokenHandler::generateTokenHandler)
+                        .GET(validatePath, tokenHandler::validateTokenHandler))
                 .build();
     }
 }

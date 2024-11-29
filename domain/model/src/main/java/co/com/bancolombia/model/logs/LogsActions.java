@@ -8,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 public enum LogsActions {
 
     CREATED("Authenticated and token created"),
-    VALIDATED("Validated");
+    VALIDATED("Token Validated"),
+    NO_VALIDATED("Token not validated");
 
     private final String message;
 }
