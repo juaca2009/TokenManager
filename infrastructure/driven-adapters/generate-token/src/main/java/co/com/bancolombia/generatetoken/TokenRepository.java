@@ -1,7 +1,9 @@
 package co.com.bancolombia.generatetoken;
 
+import co.com.bancolombia.model.exception.ExceptionMessage;
+import co.com.bancolombia.model.exception.TokenException;
 import co.com.bancolombia.model.token.Token;
-import co.com.bancolombia.model.token.gateways.GenerateTokenGateway;
+import co.com.bancolombia.model.token.gateways.TokenGateway;
 import co.com.bancolombia.model.users.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -20,7 +22,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Component
-public class GenerateTokenRepository implements GenerateTokenGateway {
+public class TokenRepository implements TokenGateway {
 
     @Value("${generate-token.secret-key}")
     private String secretKey;
@@ -40,6 +42,22 @@ public class GenerateTokenRepository implements GenerateTokenGateway {
                 .compact())
                 .map(token -> Token.builder().token(token)
                         .ttl(Instant.now().plus(15, ChronoUnit.MINUTES).getEpochSecond()).build());
+    }
+
+    @Override
+    public Mono<Void> validateToken(String token) {
+        return Mono.fromRunnable(() -> {
+            try {
+                Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
+                Jwts.parserBuilder()
+                        .setSigningKey(key)
+                        .build()
+                        .parseClaimsJws(token);
+            } catch (Exception e) {
+                throw new TokenException(ExceptionMessage.UNAUTHORIZED.getCode(),
+                        ExceptionMessage.UNAUTHORIZED.getMessage());
+            }
+        });
     }
 
     public Map<String, String> getClaims(User user) {

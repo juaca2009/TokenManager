@@ -1,7 +1,7 @@
 package co.com.bancolombia.config;
 
 import co.com.bancolombia.model.exception.ErrorModel;
-import co.com.bancolombia.model.exception.UserException;
+import co.com.bancolombia.model.exception.TokenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,8 +12,8 @@ import org.springframework.web.server.ServerWebExchange;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(UserException.class)
-    public ResponseEntity<ErrorModel> handleUserException(UserException ex, ServerWebExchange exchange) {
+    @ExceptionHandler(TokenException.class)
+    public ResponseEntity<ErrorModel> handleUserException(TokenException ex, ServerWebExchange exchange) {
         return ResponseEntity.status(HttpStatus.valueOf((Integer.parseInt(ex.getCode()))))
                 .body(ErrorModel.builder()
                         .message(ex.getMessage())

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class UserException extends RuntimeException{
+public class TokenException extends RuntimeException{
 
     private final String code;
     private final String message;
