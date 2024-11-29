@@ -27,6 +27,6 @@ public class LogsData {
     @Column("ipAddress")
     private String ipAddress;
 
-    @Column("timestamp")
+    @Column("dateLog")
     private LocalDateTime dateLog;
 }

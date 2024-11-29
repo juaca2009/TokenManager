@@ -21,7 +21,7 @@ public class GenerateTokenUseCase {
         return usersUseCase.authenticateUser(username, password)
                 .flatMap(user -> generateTokenGateway.generateToken(user)
                         .flatMap(token -> saveTokenGateway.saveToken(token, user)
-                                .then(logsUseCase.saveLog(token, user, ipAddress, LogsActions.CREATED.getMessage()))
+                                .then(logsUseCase.saveLog(user, ipAddress, LogsActions.CREATED.getMessage()))
                                 .thenReturn(token)));
     }
 }
