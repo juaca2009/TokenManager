@@ -1,43 +1,29 @@
 package co.com.bancolombia.api.tokenManagment;
 
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.reactive.function.server.RouterFunctions;
+import org.springframework.web.reactive.function.server.ServerResponse;
+import static org.springframework.web.reactive.function.server.RequestPredicates.path;
 
-@RestController
-@RequestMapping("/auth")
+@Configuration
+@RequiredArgsConstructor
 public class TokenRoutes {
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
-        if ("user".equals(loginRequest.getUsername()) && "password".equals(loginRequest.getPassword())) {
-            return ResponseEntity.ok("Login exitoso!");
-        } else {
-            return ResponseEntity.status(401).body("Credenciales inválidas");
-        }
+    @Value("${api.base-path}")
+    private String basePath;
+
+    @Value("${api.auth-path}")
+    private String authPath;
+
+    @Bean
+    public RouterFunction<ServerResponse> route(TokenHandler tokenHandler) {
+        return RouterFunctions.route()
+                .nest(path(basePath), builder -> builder
+                        .POST(authPath, tokenHandler::generateTokenHandler))
+                .build();
     }
-
-    public static class LoginRequest {
-        private String username;
-        private String password;
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-    }
-
 }

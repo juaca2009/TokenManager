@@ -5,14 +5,10 @@ spring:
     name: "tokenapp"
   devtools:
     add-properties: false
-#aws:
-#  region: "US_EAST_1"
-#  dynamodb:
-#    endpoint: "http://localhost:8000"
-aws:
-  region: "us-east-1"
-  dynamodb:
-    endpoint: "http://localhost:4566"
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5544/accounts
+    username: admin
+    password: admin123
 management:
   endpoints:
     web:
@@ -23,18 +19,28 @@ management:
       probes:
         enabled: true
 cors:
-  allowed-origins: "http://localhost:4200,http://localhost:8080"
+  allowed-origins: "http://localhost:8080"
+aws:
+  accessKey: any
+  secretKey: any
 adapter:
   aws:
-    s3:
-      bucketName: "sample-bucket"
-      region: "us-east-1"
-      endpoint: "http://localhost:4566"
-    sqs:
-      region: "us-east-1"
-      queueUrl: "http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/localstack-queue"
-      endpoint: "http://localhost:4566"
     dynamodb:
-      region: "us-east-1"
-      endpoint: "http://localhost:4566"
-      tableName: "SessionTokens"
+      endpoint: http://localhost:8010
+      role-arn: dummy
+      role-session-name: dummy
+      region: us-east-1
+      host: localhost
+      protocol: http
+      port: 8010
+generate-token:
+  secret-key: 6l1NlUBZJOhxmpEnO51-bKHDEHlBl58-ak_etv-q8NHo04_Tq-cCf9mNDS7tal3RGDYASBboxjGEhu2mIn9gvg
+  expiration-ms: 900000
+api:
+  base-path: /api/v1
+  auth-path: /auth/login
+logging:
+  level:
+    root: DEBUG
+    org.springframework.web: DEBUG
+    co.com.bancolombia: DEBUG

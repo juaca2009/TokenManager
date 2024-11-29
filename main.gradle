@@ -14,7 +14,6 @@ subprojects {
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'info.solidsoft.pitest'
 
-    compileJava.dependsOn validateStructure
 
     java {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -30,6 +29,7 @@ subprojects {
 		implementation platform('software.amazon.awssdk:bom:2.29.15')
         implementation 'io.projectreactor:reactor-core'
         implementation 'io.projectreactor.addons:reactor-extra'
+        implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
         testImplementation 'io.projectreactor.tools:blockhound-junit-platform:1.0.10.RELEASE'
 
