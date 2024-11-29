@@ -14,10 +14,10 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 public class TokenRoutes {
 
     @Value("${api.base-path}")
-    private final String basePath;
+    private String basePath;
 
     @Value("${api.auth-path}")
-    private final String authPath;
+    private String authPath;
 
     @Bean
     public RouterFunction<ServerResponse> route(TokenHandler tokenHandler) {

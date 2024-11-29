@@ -23,10 +23,10 @@ import java.util.Map;
 public class GenerateTokenRepository implements GenerateTokenGateway {
 
     @Value("${generate-token.secret-key}")
-    private final String secretKey;
+    private String secretKey;
 
     @Value("${generate-token.expiration-ms}")
-    private final long expirationMs;
+    private long expirationMs;
 
     @Override
     public Mono<Token> generateToken(User user) {
