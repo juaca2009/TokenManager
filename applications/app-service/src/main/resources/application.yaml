@@ -33,3 +33,6 @@ adapter:
 generate-token:
   secret-key: 6l1NlUBZJOhxmpEnO51-bKHDEHlBl58-ak_etv-q8NHo04_Tq-cCf9mNDS7tal3RGDYASBboxjGEhu2mIn9gvg
   expiration-ms: 900000 //15 minutos en ms
+api:
+  base-path: /api/v1
+  auth-path: /auth/login
