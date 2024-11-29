@@ -3,3 +3,6 @@ aws dynamodb create-table --table-name SessionTokens --attribute-definitions Att
 
 # Activar TTL
 aws dynamodb update-time-to-live --table-name SessionTokens --time-to-live-specification "Enabled=true, AttributeName=ttl" --endpoint-url http://localhost:8010
+
+# Ver contenido de la tabla
+aws dynamodb scan --table-name SessionTokens --endpoint-url http://localhost:8010

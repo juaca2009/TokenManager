@@ -20,12 +20,19 @@ management:
         enabled: true
 cors:
   allowed-origins: "http://localhost:8080"
+aws:
+  accessKey: any
+  secretKey: any
 adapter:
   aws:
     dynamodb:
-      region: "us-east-1"
-      endpoint: "localhost:8010"
-      tableName: "SessionTokens"
+      endpoint: http://localhost:8010
+      role-arn: dummy
+      role-session-name: dummy
+      region: us-east-1
+      host: localhost
+      protocol: http
+      port: 8010
 generate-token:
   secret-key: 6l1NlUBZJOhxmpEnO51-bKHDEHlBl58-ak_etv-q8NHo04_Tq-cCf9mNDS7tal3RGDYASBboxjGEhu2mIn9gvg
   expiration-ms: 900000
