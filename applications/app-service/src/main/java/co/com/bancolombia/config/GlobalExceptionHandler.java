@@ -1,5 +1,6 @@
 package co.com.bancolombia.config;
 
+import co.com.bancolombia.model.exception.ErrorModel;
 import co.com.bancolombia.model.exception.UserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,20 +13,35 @@ import org.springframework.web.server.ServerWebExchange;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserException.class)
-    public ResponseEntity<String> handleUserException(UserException ex, ServerWebExchange exchange) {
+    public ResponseEntity<ErrorModel> handleUserException(UserException ex, ServerWebExchange exchange) {
         return ResponseEntity.status(HttpStatus.valueOf(ex.getCode()))
-                .body(ex.getMessage());
+                .body(ErrorModel.builder()
+                        .message(ex.getMessage())
+                        .code(String.valueOf(ex.getCode()))
+                        .cause(ex.getCause().toString())
+                        .details("Se presento un error inesperado")
+                        .build());
     }
 
     @ExceptionHandler(WebExchangeBindException.class)
-    public ResponseEntity<String> handleValidationException(WebExchangeBindException ex, ServerWebExchange exchange) {
+    public ResponseEntity<ErrorModel> handleValidationException(WebExchangeBindException ex, ServerWebExchange exchange) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("Validation error: " + ex.getFieldErrors().toString());
+                .body(ErrorModel.builder()
+                        .message(ex.getMessage())
+                        .code("400")
+                        .cause(ex.getCause().toString())
+                        .details("Se presento un error inesperado")
+                        .build());
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleGenericException(Exception ex, ServerWebExchange exchange) {
+    public ResponseEntity<ErrorModel> handleGenericException(Exception ex, ServerWebExchange exchange) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("An unexpected error occurred: " + ex.getMessage());
+                .body(ErrorModel.builder()
+                        .message(ex.getMessage())
+                        .code("500")
+                        .cause(ex.getCause().toString())
+                        .details("Se presento un error inesperado")
+                        .build());
     }
 }

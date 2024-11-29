@@ -10,10 +10,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DynamoDBConfig {
 
-    @Value("${aws.dynamodb.endpoint}")
+    @Value("${adapter.aws.dynamodb.endpoint}")
     private String dynamoDbEndpoint;
 
-    @Value("${aws.region}")
+    @Value("${adapter.aws.dynamodb.region}")
     private String region;
 
     @Bean
