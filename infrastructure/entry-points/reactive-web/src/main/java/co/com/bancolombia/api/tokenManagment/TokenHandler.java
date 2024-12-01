@@ -34,7 +34,7 @@ public class TokenHandler {
     }
 
     public Mono<ServerResponse> validateTokenHandler(ServerRequest serverRequest){
-        String token = serverRequest.headers().firstHeader("token");
+        String token = serverRequest.headers().firstHeader("authorization");
         String userId = serverRequest.headers().firstHeader("userId");
         String ipAddress = serverRequest.remoteAddress()
                 .map(InetSocketAddress::getHostString)
