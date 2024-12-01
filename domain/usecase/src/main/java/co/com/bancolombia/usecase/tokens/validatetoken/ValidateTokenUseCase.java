@@ -20,15 +20,18 @@ public class ValidateTokenUseCase {
 
     public Mono<String> validateToken(String token, String ipAddress, String username) {
         return tokenGateway.validateToken(token)
-                .then(usersGateways.getUserById(username)
+                .switchIfEmpty(usersGateways.getUserById(username)
+                        .flatMap(user -> logsUseCase.saveLog(user, ipAddress, LogsActions.NO_VALIDATED.getMessage())
+                                .then(Mono.error(new TokenException(ExceptionMessage.UNAUTHORIZED.getCode(),
+                                        ExceptionMessage.UNAUTHORIZED.getMessage())))))
+                .flatMap(validToken -> usersGateways.getUserById(username)
                         .flatMap(user -> persistenceTokenGateway.verifyToken(user.getId().toString())
                                 .switchIfEmpty(logsUseCase.saveLog(user, ipAddress,
                                                 LogsActions.NO_VALIDATED.getMessage())
                                         .then(Mono.error(new TokenException(ExceptionMessage.UNAUTHORIZED.getCode(),
                                                 ExceptionMessage.UNAUTHORIZED.getMessage()))))
                                 .then(logsUseCase.saveLog(user, ipAddress, LogsActions.VALIDATED.getMessage()))
-                                .then(Mono.just(token))));
-
+                                .then(Mono.just(validToken))));
     }
 
 }

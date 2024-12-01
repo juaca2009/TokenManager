@@ -45,22 +45,22 @@ public class TokenRepository implements TokenGateway {
     }
 
     @Override
-    public Mono<Void> validateToken(String token) {
-        return Mono.fromRunnable(() -> {
-            try {
-                Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-                Jwts.parserBuilder()
-                        .setSigningKey(key)
-                        .build()
-                        .parseClaimsJws(token);
-            } catch (Exception e) {
-                throw new TokenException(ExceptionMessage.UNAUTHORIZED.getCode(),
-                        ExceptionMessage.UNAUTHORIZED.getMessage());
-            }
-        });
+    public Mono<String> validateToken(String token) {
+        return Mono.fromCallable(() -> {
+                    Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
+                    Jwts.parserBuilder()
+                            .setSigningKey(key)
+                            .build()
+                            .parseClaimsJws(token);
+                    return token;
+                })
+                .onErrorResume(e -> Mono.empty());
     }
 
-    public Map<String, String> getClaims(User user) {
+
+    private Map<String, String> getClaims(User user) {
         return Map.of("userId", user.getId().toString(), "email", user.getEmail(), "role", user.getRole());
     }
+
+
 }

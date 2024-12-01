@@ -7,5 +7,5 @@ import reactor.core.publisher.Mono;
 public interface TokenGateway {
 
     Mono<Token> generateToken(User user);
-    Mono<Void> validateToken(String token);
+    Mono<String> validateToken(String token);
 }
