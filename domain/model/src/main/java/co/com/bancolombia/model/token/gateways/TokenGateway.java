@@ -4,7 +4,8 @@ import co.com.bancolombia.model.token.Token;
 import co.com.bancolombia.model.users.User;
 import reactor.core.publisher.Mono;
 
-public interface SaveTokenGateway {
+public interface TokenGateway {
 
-    Mono<Token> saveToken(Token token, User user);
+    Mono<Token> generateToken(User user);
+    Mono<String> validateToken(String token);
 }

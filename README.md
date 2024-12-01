@@ -121,6 +121,13 @@ Este caso de uso tiene como objetivo desarrollar una *API Reactiva* que combine 
   ``` 
 - *GET* /auth/validate-token
     - Valida un token enviado.
+  ```bash
+        curl --location 'http://localhost:8080/api/v1/auth/validate-toke' \
+        --header 'Accept: application/json' \
+        --header 'Content-Type: application/json' \
+        --header 'authorization: eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFuZHJlczk3QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlcklkIjoiM2YyYjljNjQtOGI1NC00ZDI2LThjMTItN2RiZmEyM2M5ZWRjIiwic3ViIjoiYW5kcmVzOTciLCJpYXQiOjE3MzMwMjQwNzQsImV4cCI6MTczMzAyNDk3NH0.sMdpgxcasm1YjmY4P_phB_0exzw8BUo95QzIXLgvIhk' \
+        --header 'userId: 3f2b9c64-8b54-4d26-8c12-7dbfa23c9edc'
+  ```
 
 ### Gestión de Cuentas
 - *POST* /accounts
@@ -222,7 +229,7 @@ Este caso de uso tiene como objetivo desarrollar una *API Reactiva* que combine 
             password: admin123
         ```
         **Nota:** Se debe tener en cuenta la configuracion de los logs de la aplicacion, por defecto se encuntra 
-        en modo DEBUG pero si se requiere se puede pasar a INFO o ERROR.
+        en modo DEBUG, pero si se requiere se puede pasar a INFO o ERROR.
         
         ```properties
       logging:

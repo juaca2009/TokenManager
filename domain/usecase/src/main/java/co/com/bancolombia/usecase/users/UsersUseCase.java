@@ -1,7 +1,7 @@
 package co.com.bancolombia.usecase.users;
 
 import co.com.bancolombia.model.exception.ExceptionMessage;
-import co.com.bancolombia.model.exception.UserException;
+import co.com.bancolombia.model.exception.TokenException;
 import co.com.bancolombia.model.users.User;
 import co.com.bancolombia.model.users.gateways.UsersGateways;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ public class UsersUseCase {
                     if (user.getPassword().equals(password)) {
                         return Mono.just(user);
                     } else {
-                        return Mono.error(new UserException(ExceptionMessage.BAD_PASSWORD.getCode(),
+                        return Mono.error(new TokenException(ExceptionMessage.BAD_PASSWORD.getCode(),
                                 ExceptionMessage.BAD_PASSWORD.getMessage()));
                     }
                 });

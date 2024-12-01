@@ -13,7 +13,6 @@ public class SessionToken {
     private Long createdAt;      
     private Long ttl;            
 
-    @DynamoDbPartitionKey
     public String getToken() {
         return token;
     }
@@ -22,6 +21,7 @@ public class SessionToken {
         this.token = token;
     }
 
+    @DynamoDbPartitionKey
     public String getUserId() {
         return userId;
     }

@@ -6,4 +6,5 @@ import reactor.core.publisher.Mono;
 public interface UsersGateways {
 
     Mono<User> getUser(String username);
+    Mono<User> getUserById(String id);
 }
