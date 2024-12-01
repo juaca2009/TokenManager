@@ -41,7 +41,7 @@ public class DynamoRepository implements PersistenceTokenGateway {
 
     @Override
     public Mono<String> verifyToken(String userId) {
-        //Metodo que verifica si el token existe en la base de datos de DynamoDB, si existe retorna el userId si no
+        //Metodo que verifica si el token existe en la base de datos de DynamoDB, si existe retorna el ttl si no
         // retorna un Mono vacio
         DynamoDbAsyncTable<SessionToken> table = dynamoDbEnhancedAsyncClient.table(TABLE_NAME,
                 TableSchema.fromBean(SessionToken.class));
@@ -50,7 +50,7 @@ public class DynamoRepository implements PersistenceTokenGateway {
         return Mono.from(table.query(queryConditional))
                 .flatMapMany(queryResponse -> Flux.fromIterable(queryResponse.items()))
                 .next()
-                .map(SessionToken::getUserId)
+                .map(token -> token.getTtl().toString())
                 .switchIfEmpty(Mono.empty());
     }
 }

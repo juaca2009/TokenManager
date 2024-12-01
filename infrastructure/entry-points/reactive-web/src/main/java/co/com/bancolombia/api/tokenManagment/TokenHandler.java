@@ -42,8 +42,8 @@ public class TokenHandler {
                         ExceptionMessage.NO_IP.getMessage()));
         return validateHeadersValidate(token, userId)
                 .then(validateTokenUseCase.validateToken(token, ipAddress, userId)
-                        .flatMap(validatedToken -> ServerResponse.ok()
-                        .bodyValue(Token.builder().token(validatedToken).build())));
+                        .flatMap(ttl -> ServerResponse.ok()
+                        .bodyValue(Token.builder().token(token).ttl(Long.parseLong(ttl)).build())));
     }
 
     public Mono<Void> validateHeadersValidate(String token, String userId) {

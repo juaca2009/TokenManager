@@ -30,8 +30,10 @@ public class ValidateTokenUseCase {
                                                 LogsActions.NO_VALIDATED.getMessage())
                                         .then(Mono.error(new TokenException(ExceptionMessage.UNAUTHORIZED.getCode(),
                                                 ExceptionMessage.UNAUTHORIZED.getMessage()))))
-                                .then(logsUseCase.saveLog(user, ipAddress, LogsActions.VALIDATED.getMessage()))
-                                .then(Mono.just(validToken))));
+                                .flatMap(ttl -> {
+                                    return logsUseCase.saveLog(user, ipAddress, LogsActions.VALIDATED.getMessage())
+                                            .then(Mono.just(ttl));
+                                })));
     }
 
 }
